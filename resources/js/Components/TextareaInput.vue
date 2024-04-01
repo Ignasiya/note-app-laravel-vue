@@ -1,0 +1,58 @@
+<script setup>
+import {onMounted, ref, watch} from 'vue';
+
+const props = defineProps({
+    modelValue: {
+        type: String,
+        required: false,
+    },
+    autoResize: {
+        type: Boolean,
+        default: true
+    }
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const input = ref(null);
+
+function adjustHeight() {
+    if (props.autoResize) {
+        input.value.style.height = 'auto';
+        input.value.style.height = (input.value.scrollHeight + 42) + 'px';
+    }
+}
+
+onMounted(() => {
+    if (input.value.hasAttribute('autofocus')) {
+        input.value.focus();
+    }
+});
+
+onMounted(() => {
+    adjustHeight()
+})
+
+watch(() => props.modelValue, () => {
+    setTimeout(() => {
+        adjustHeight()
+    }, 10)
+})
+
+defineExpose({focus: () => input.value.focus()});
+
+function onInputChange(event) {
+    emit('update:modelValue', event.target.value);
+}
+
+</script>
+
+<template>
+    <textarea
+        class="border-gray-300 focus:border-sky-500 focus:ring-sky-500 shadow-sm"
+        :value="modelValue"
+        @input="onInputChange"
+        ref="input"
+    >
+    </textarea>
+</template>
