@@ -28,7 +28,7 @@ function deleteNote() {
     <tr class="border-b">
         <td class="px-3 py-2">{{ note.id }}</td>
         <td class="px-3 py-2">{{ note.title }}</td>
-        <td class="px-3 py-2">{{ note.content }}</td>
+        <td class="px-3 py-2" v-html="content.substring(0, 100)"></td>
         <td class="px-3 py-2">{{ note.updated_at }}</td>
         <td class="px-3 py-2">
             <button @click="openEditModal" class="font-medium text-sky-600 hover:underline mx-1">
